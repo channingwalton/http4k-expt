@@ -2,7 +2,6 @@ package com.example
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.statements.InsertStatement
 
 object Customers : Table() {
   val customerId = long("id").autoIncrement()

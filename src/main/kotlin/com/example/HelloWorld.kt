@@ -1,6 +1,5 @@
 package com.example
 
-import ch.qos.logback.classic.Logger
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.*
 import org.http4k.core.Response
@@ -23,7 +22,7 @@ import org.slf4j.LoggerFactory
 
 class TheHandlers {
 
-  private val logger = LoggerFactory.getLogger(this.javaClass);
+  private val logger = LoggerFactory.getLogger(this.javaClass)
 
   val app: HttpHandler = routes(
 
