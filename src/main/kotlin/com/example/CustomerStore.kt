@@ -1,7 +1,9 @@
 package com.example
 
-import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 
 object Customers : Table() {
   val customerId = long("id").autoIncrement()
