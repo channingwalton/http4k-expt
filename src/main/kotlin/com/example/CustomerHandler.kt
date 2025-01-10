@@ -21,7 +21,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
 
-class TheHandlers {
+class CustomerHandler {
 
   private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -58,7 +58,7 @@ class TheHandlers {
 fun main() {
   Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
   transaction { SchemaUtils.create(Customers) }
-  val handlers = TheHandlers()
+  val handlers = CustomerHandler()
   val printingApp: HttpHandler = PrintRequest().then(handlers.app)
 
   val server = printingApp.asServer(SunHttp(9000)).start()

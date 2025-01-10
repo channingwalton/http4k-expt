@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-class HelloWorldTest {
+class CustomerHandlerTests {
 
   companion object {
     @JvmStatic
@@ -31,15 +31,15 @@ class HelloWorldTest {
     val customer = Customer(id = 1, name = "Bob", email = "bob@example.com")
 
     val json = Json.encodeToString(customer)
-    assertEquals(Response(OK), TheHandlers().app(Request(POST, "/customer").body(json)))
+    assertEquals(Response(OK), CustomerHandler().app(Request(POST, "/customer").body(json)))
 
     val expected = Response(OK).header("Content-Type", "application/json").body(json)
-    assertEquals(expected, TheHandlers().app(Request(GET, "/customer/1")))
+    assertEquals(expected, CustomerHandler().app(Request(GET, "/customer/1")))
   }
 
   @Test
   fun `Customer unknown customer`() {
-    assertEquals(Response(NOT_FOUND), TheHandlers().app(Request(GET, "/customer/999")))
+    assertEquals(Response(NOT_FOUND), CustomerHandler().app(Request(GET, "/customer/999")))
   }
 
 }
