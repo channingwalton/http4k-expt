@@ -13,6 +13,7 @@ import org.http4k.core.with
 import org.http4k.lens.Header.CONTENT_TYPE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.io.ByteArrayInputStream
 
 class CustomerHandlerTests {
 
@@ -28,7 +29,11 @@ class CustomerHandlerTests {
   @Test
   fun `Customer test`() {
     val json = Json.encodeToString(customer)
-    assertEquals(Response(OK), handler.app(Request(POST, "/customer").body(json)))
+
+    // The body must be a Stream to match what actually happens in the app,
+    // as opposed to just a String
+    val request = Request(POST, "/customer").body(ByteArrayInputStream(json.toByteArray()))
+    assertEquals(Response(OK), handler.app(request))
 
     val expected = Response(OK).with(CONTENT_TYPE of ContentType.APPLICATION_JSON).body(json)
     assertEquals(expected, handler.app(Request(GET, "/customer/1")))
@@ -41,6 +46,7 @@ class CustomerHandlerTests {
 
   @Test
   fun `bad json`() {
-    assertEquals(Response(BAD_REQUEST), handler.app(Request(POST, "/customer").body("err")))
+    val request = Request(POST, "/customer").body(ByteArrayInputStream("oops".toByteArray()))
+    assertEquals(Response(BAD_REQUEST), handler.app(request))
   }
 }
