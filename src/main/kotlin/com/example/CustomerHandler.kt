@@ -26,7 +26,7 @@ class CustomerHandler(logic: Logic) {
 
     "/customer" bind POST to { request ->
       logger.info("Received a POST request")
-      val raw = request.body.toString()
+      val raw = request.bodyString()
       try {
         val customer = Json.decodeFromString<Customer>(raw)
         logic.add(customer)
