@@ -12,7 +12,7 @@ import org.http4k.core.Status.Companion.OK
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class CustomerHandlerTests : DatabaseTest {
+class CustomerHandlerTest : DatabaseTest {
 
   @Test
   fun `Customer test`() {
