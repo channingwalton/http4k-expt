@@ -12,7 +12,6 @@ interface Store {
   fun add(c: Customer): Long
   fun getCustomer(cId: Long): Customer?
   fun <T> transact(statement: () -> T): T
-  fun initialize(dbName: String) {}
 }
 
 object DBStore : Store {
@@ -37,7 +36,7 @@ object DBStore : Store {
   override fun <T> transact(statement: () -> T): T =
     transaction { statement() }
 
-  override fun initialize(dbName: String) {
+  fun initialize(dbName: String) {
     val url = "jdbc:h2:mem:$dbName;DB_CLOSE_DELAY=-1"
 
     Database.connect(url = url, driver = "org.h2.Driver")
