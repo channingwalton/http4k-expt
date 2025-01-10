@@ -7,7 +7,7 @@ interface DatabaseTest {
     @JvmStatic
     @BeforeAll
     fun setup() {
-      DBMigration.run(this::class.java.simpleName)
+      DBCustomerStore.initialize(this::class.java.simpleName)
     }
   }
 }

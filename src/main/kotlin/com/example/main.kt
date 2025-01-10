@@ -6,8 +6,7 @@ import org.http4k.server.SunHttp
 import org.http4k.server.asServer
 
 fun main() {
-  DBMigration.run("test")
-
+  DBCustomerStore.initialize("test")
   val handlers = CustomerHandler(TheLogics(DBCustomerStore))
   val app = PrintRequest().then(handlers.app)
   val server = app.asServer(SunHttp(9000)).start()
