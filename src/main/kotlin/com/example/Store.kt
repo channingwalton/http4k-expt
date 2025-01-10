@@ -8,14 +8,14 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-interface CustomerStore {
+interface Store {
   fun add(c: Customer): Long
   fun getCustomer(cId: Long): Customer?
   fun <T> transact(statement: () -> T): T
   fun initialize(dbName: String) {}
 }
 
-object DBCustomerStore : CustomerStore {
+object DBStore : Store {
 
   object Customers : Table() {
     val customerId = long("id").autoIncrement()

@@ -5,14 +5,14 @@ interface Logic {
   fun getCustomer(cId: Long): Customer?
 }
 
-class TheLogics(private val customerStore: CustomerStore) : Logic {
+class TheLogics(private val store: Store) : Logic {
   override fun add(c: Customer): Long =
-    customerStore.transact {
-      customerStore.add(c)
+    store.transact {
+      store.add(c)
     }
 
   override fun getCustomer(cId: Long): Customer? =
-    customerStore.transact {
-      customerStore.getCustomer(cId)
+    store.transact {
+      store.getCustomer(cId)
     }
 }
