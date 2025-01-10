@@ -3,6 +3,7 @@ package com.example
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.http4k.core.ContentType
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
@@ -11,6 +12,8 @@ import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.INTERNAL_SERVER_ERROR
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
+import org.http4k.core.with
+import org.http4k.lens.Header.CONTENT_TYPE
 import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
@@ -43,7 +46,7 @@ class CustomerHandler(logic: Logic) {
       request.path("id")?.toLong()?.let { okId ->
           logic.getCustomer(okId)?.let { customer ->
             Response(OK)
-              .header("Content-Type", "application/json")
+              .with(CONTENT_TYPE of ContentType.APPLICATION_JSON)
               .body(Json.encodeToString(customer))
           } ?: Response(NOT_FOUND)
       } ?: Response(BAD_REQUEST.description("Please provide an ID"))
