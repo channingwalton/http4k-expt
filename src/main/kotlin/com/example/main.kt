@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun main() {
   Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
   transaction { SchemaUtils.create(Customers) }
-  val handlers = CustomerHandler()
+  val handlers = CustomerHandler(TheLogics())
   val app = PrintRequest().then(handlers.app)
   val server = app.asServer(SunHttp(9000)).start()
   println("Server started on " + server.port())

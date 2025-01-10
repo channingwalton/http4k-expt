@@ -14,25 +14,27 @@ import org.junit.jupiter.api.Test
 
 class CustomerHandlerTests : DatabaseTest {
 
+  private val handler = CustomerHandler(TheLogics())
+
   @Test
   fun `Customer test`() {
     val customer = Customer(id = 1, name = "Bob", email = "bob@example.com")
 
     val json = Json.encodeToString(customer)
-    assertEquals(Response(OK), CustomerHandler().app(Request(POST, "/customer").body(json)))
+    assertEquals(Response(OK), handler.app(Request(POST, "/customer").body(json)))
 
     val expected = Response(OK).header("Content-Type", "application/json").body(json)
-    assertEquals(expected, CustomerHandler().app(Request(GET, "/customer/1")))
+    assertEquals(expected, handler.app(Request(GET, "/customer/1")))
   }
 
   @Test
   fun `unknown customer`() {
-    assertEquals(Response(NOT_FOUND), CustomerHandler().app(Request(GET, "/customer/999")))
+    assertEquals(Response(NOT_FOUND), handler.app(Request(GET, "/customer/999")))
   }
 
   @Test
   fun `bad json`() {
-    assertEquals(Response(BAD_REQUEST), CustomerHandler().app(Request(POST, "/customer").body("err")))
+    assertEquals(Response(BAD_REQUEST), handler.app(Request(POST, "/customer").body("err")))
   }
 
 }

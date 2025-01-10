@@ -16,7 +16,7 @@ import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.slf4j.LoggerFactory
 
-class CustomerHandler {
+class CustomerHandler(logic: Logic) {
 
   private val logger = LoggerFactory.getLogger(this.javaClass)
 
@@ -27,7 +27,7 @@ class CustomerHandler {
       val raw = request.body.toString()
       try {
         val customer = Json.decodeFromString<Customer>(raw)
-        TheLogics.add(customer)
+        logic.add(customer)
         Response(OK)
       } catch (e: SerializationException) {
         logger.error("Error decoding json: $raw", e)
@@ -41,7 +41,7 @@ class CustomerHandler {
 
     "/customer/{id}" bind GET to { request ->
       request.path("id")?.toLong()?.let { okId ->
-          TheLogics.getCustomer(okId)?.let { customer ->
+          logic.getCustomer(okId)?.let { customer ->
             Response(OK)
               .header("Content-Type", "application/json")
               .body(Json.encodeToString(customer))
