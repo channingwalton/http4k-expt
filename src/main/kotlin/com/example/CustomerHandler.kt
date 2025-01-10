@@ -26,7 +26,7 @@ class CustomerHandler {
       val raw = request.body.toString()
       val customer = Json.decodeFromString<Customer>(raw)
       transaction {
-        Customers.add(customer)
+        CustomerStore.add(customer)
         Response(OK)
       }
     },
@@ -38,7 +38,7 @@ class CustomerHandler {
         Response(BAD_REQUEST.description("Please provide an ID"))
       else
         transaction {
-          val customer = Customers.getCustomer(id)
+          val customer = CustomerStore.getCustomer(id)
           if (customer == null) Response(NOT_FOUND)
           else
             Response(OK)

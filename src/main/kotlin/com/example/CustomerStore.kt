@@ -6,18 +6,20 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 
 object Customers : Table() {
-  private val customerId = long("id").autoIncrement()
-  private val name = varchar("name", 128)
-  private val email = varchar("email", 256)
+  val customerId = long("id").autoIncrement()
+  val name = varchar("name", 128)
+  val email = varchar("email", 256)
+}
 
+object CustomerStore {
   fun add(c: Customer): Long =
     Customers.insert {
       it[name] = c.name
       it[email] = c.email
-    }[customerId]
+    }[Customers.customerId]
 
   fun getCustomer(cId: Long): Customer? =
-    selectAll().where(customerId eq cId).map { resultRow ->
-      Customer(id = cId, name = resultRow[name], email = resultRow[email])
+    Customers.selectAll().where(Customers.customerId eq cId).map { resultRow ->
+      Customer(id = cId, name = resultRow[Customers.name], email = resultRow[Customers.email])
     }.firstOrNull()
 }

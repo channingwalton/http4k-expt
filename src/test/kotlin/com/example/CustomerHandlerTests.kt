@@ -8,23 +8,10 @@ import org.http4k.core.Request
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-class CustomerHandlerTests {
-
-  companion object {
-    @JvmStatic
-    @BeforeAll
-    fun setup() {
-      Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
-      transaction { SchemaUtils.create(Customers) }
-    }
-  }
+class CustomerHandlerTests : DatabaseTest {
 
   @Test
   fun `Customer test`() {
