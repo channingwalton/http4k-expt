@@ -6,6 +6,7 @@ import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
 import org.http4k.core.Request
 import org.http4k.core.Response
+import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -25,8 +26,13 @@ class CustomerHandlerTests : DatabaseTest {
   }
 
   @Test
-  fun `Customer unknown customer`() {
+  fun `unknown customer`() {
     assertEquals(Response(NOT_FOUND), CustomerHandler().app(Request(GET, "/customer/999")))
+  }
+
+  @Test
+  fun `bad json`() {
+    assertEquals(Response(BAD_REQUEST), CustomerHandler().app(Request(POST, "/customer").body("err")))
   }
 
 }

@@ -24,10 +24,15 @@ class CustomerHandler {
     "/customer" bind POST to { request ->
       logger.info("Received a POST request")
       val raw = request.body.toString()
-      val customer = Json.decodeFromString<Customer>(raw)
-      transaction {
-        CustomerStore.add(customer)
-        Response(OK)
+      try {
+        val customer = Json.decodeFromString<Customer>(raw)
+        transaction {
+          CustomerStore.add(customer)
+          Response(OK)
+        }
+      } catch (e: Exception) {
+        logger.error("Error decoding json: $raw")
+        Response(BAD_REQUEST.description("Unable to decode JSON"))
       }
     },
 
