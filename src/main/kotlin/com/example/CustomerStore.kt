@@ -19,7 +19,7 @@ object CustomerStore {
     }[Customers.customerId]
 
   fun getCustomer(cId: Long): Customer? =
-    Customers.selectAll().where(Customers.customerId eq cId).map { resultRow ->
-      Customer(id = cId, name = resultRow[Customers.name], email = resultRow[Customers.email])
+    Customers.selectAll().where(Customers.customerId eq cId).map {
+      Customer(id = cId, name = it[Customers.name], email = it[Customers.email])
     }.firstOrNull()
 }
