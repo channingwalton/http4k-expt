@@ -10,7 +10,7 @@ interface Logic {
 class TheLogics : Logic {
   override fun add(c: Customer): Long =
     transaction {
-     CustomerStore.add(c)
+      CustomerStore.add(c)
     }
 
   override fun getCustomer(cId: Long): Customer? =

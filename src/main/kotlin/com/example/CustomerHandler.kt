@@ -1,7 +1,6 @@
 package com.example
 
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.ContentType
 import org.http4k.core.HttpHandler
@@ -35,8 +34,7 @@ class CustomerHandler(logic: Logic) {
       } catch (e: SerializationException) {
         logger.error("Error decoding json: $raw", e)
         Response(BAD_REQUEST.description("Unable to decode JSON"))
-      }
-      catch (e: Exception) {
+      } catch (e: Exception) {
         logger.error("Things have gone badly wrong", e)
         Response(INTERNAL_SERVER_ERROR.description("Bad things have happened"))
       }
@@ -44,11 +42,11 @@ class CustomerHandler(logic: Logic) {
 
     "/customer/{id}" bind GET to { request ->
       request.path("id")?.toLong()?.let { okId ->
-          logic.getCustomer(okId)?.let { customer ->
-            Response(OK)
-              .with(CONTENT_TYPE of ContentType.APPLICATION_JSON)
-              .body(Json.encodeToString(customer))
-          } ?: Response(NOT_FOUND)
+        logic.getCustomer(okId)?.let { customer ->
+          Response(OK)
+            .with(CONTENT_TYPE of ContentType.APPLICATION_JSON)
+            .body(Json.encodeToString(customer))
+        } ?: Response(NOT_FOUND)
       } ?: Response(BAD_REQUEST.description("Please provide an ID"))
     }
   )

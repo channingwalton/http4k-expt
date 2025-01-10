@@ -1,6 +1,5 @@
 package com.example
 
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.ContentType
 import org.http4k.core.Method.GET
