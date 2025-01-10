@@ -27,7 +27,7 @@ class CustomerHandlerTests {
   private val handler = CustomerHandler(mockLogic)
 
   @Test
-  fun `Customer test`() {
+  fun `create and retrieve a customer`() {
     val json = Json.encodeToString(customer)
 
     // The body must be a Stream to match what actually happens in the app,

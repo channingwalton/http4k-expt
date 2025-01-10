@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 class DBCustomerStoreTest : DatabaseTest {
   @Test
-  fun crudTest() {
+  fun crud() {
     val customer = Customer(id = null, name = "Bob", email = "bob@example.com")
     val id = transaction { DBCustomerStore.add(customer) }
     val found = transaction { DBCustomerStore.getCustomer(id) }
