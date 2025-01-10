@@ -1,5 +1,6 @@
 package com.example
 
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.http4k.core.HttpHandler
@@ -7,6 +8,7 @@ import org.http4k.core.Method.GET
 import org.http4k.core.Method.POST
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.BAD_REQUEST
+import org.http4k.core.Status.Companion.INTERNAL_SERVER_ERROR
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
@@ -30,9 +32,13 @@ class CustomerHandler {
           CustomerStore.add(customer)
           Response(OK)
         }
-      } catch (e: Exception) {
-        logger.error("Error decoding json: $raw")
+      } catch (e: SerializationException) {
+        logger.error("Error decoding json: $raw", e)
         Response(BAD_REQUEST.description("Unable to decode JSON"))
+      }
+      catch (e: Exception) {
+        logger.error("Things have gone badly wrong", e)
+        Response(INTERNAL_SERVER_ERROR.description("Bad things have happened"))
       }
     },
 
