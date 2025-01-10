@@ -6,9 +6,9 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 
 object Customers : Table() {
-  val customerId = long("id").autoIncrement()
-  val name = varchar("name", 128)
-  val email = varchar("email", 256)
+  private val customerId = long("id").autoIncrement()
+  private val name = varchar("name", 128)
+  private val email = varchar("email", 256)
 
   fun add(c: Customer): Long =
     Customers.insert {
