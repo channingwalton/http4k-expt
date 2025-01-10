@@ -37,20 +37,15 @@ class CustomerHandler {
     },
 
     "/customer/{id}" bind GET to { request ->
-      val id = request.path("id")?.toLong()
-      logger.info("Received a GET request with $id")
-      if (id == null)
-        Response(BAD_REQUEST.description("Please provide an ID"))
-      else
+      request.path("id")?.toLong()?.let { okId ->
         transaction {
-          val customer = CustomerStore.getCustomer(id)
-          if (customer == null) Response(NOT_FOUND)
-          else
+          CustomerStore.getCustomer(okId)?.let { customer ->
             Response(OK)
               .header("Content-Type", "application/json")
               .body(Json.encodeToString(customer))
+          } ?: Response(NOT_FOUND)
         }
+      } ?: Response(BAD_REQUEST.description("Please provide an ID"))
     }
   )
 }
-
