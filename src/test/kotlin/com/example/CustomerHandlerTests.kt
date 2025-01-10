@@ -15,14 +15,19 @@ import org.http4k.lens.Header.CONTENT_TYPE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class CustomerHandlerTests : DatabaseTest {
+class CustomerHandlerTests {
 
-  private val handler = CustomerHandler(TheLogics())
+  private val customer = Customer(id = 1, name = "Bob", email = "bob@example.com")
+  private val mockLogic = object : Logic {
+    override fun add(c: Customer): Long = c.id!!
+    override fun getCustomer(cId: Long): Customer? =
+      if (cId == customer.id) customer else null
+  }
+
+  private val handler = CustomerHandler(mockLogic)
 
   @Test
   fun `Customer test`() {
-    val customer = Customer(id = 1, name = "Bob", email = "bob@example.com")
-
     val json = Json.encodeToString(customer)
     assertEquals(Response(OK), handler.app(Request(POST, "/customer").body(json)))
 
@@ -39,5 +44,4 @@ class CustomerHandlerTests : DatabaseTest {
   fun `bad json`() {
     assertEquals(Response(BAD_REQUEST), handler.app(Request(POST, "/customer").body("err")))
   }
-
 }
