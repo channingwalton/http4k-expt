@@ -60,7 +60,6 @@ dependencies {
     implementation("com.h2database:h2:2.2.224")
     implementation("ch.qos.logback:logback-classic:1.5.16")
     implementation("ch.qos.logback:logback-core:1.5.16")
-    implementation("io.arrow-kt:arrow-core:1.2.4")
     testImplementation("org.http4k:http4k-testing-approval")
     testImplementation("org.http4k:http4k-testing-hamkrest")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
