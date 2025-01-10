@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 plugins {
     kotlin("jvm") version "2.1.0"
     kotlin("plugin.serialization") version "2.1.0"
+    id("com.github.ben-manes.versions") version "0.51.0"
     application
 }
 
@@ -52,9 +53,9 @@ tasks {
 }
 
 dependencies {
-    implementation(platform("org.http4k:http4k-bom:5.45.0.0"))
+    implementation(platform("org.http4k:http4k-bom:5.45.1.0"))
     implementation("org.http4k:http4k-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
     implementation("org.jetbrains.exposed:exposed-core:0.57.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.57.0")
     implementation("com.h2database:h2:2.2.224")
