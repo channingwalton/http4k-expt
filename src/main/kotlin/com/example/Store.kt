@@ -36,12 +36,10 @@ object DBStore : Store {
   override fun <T> transact(statement: () -> T): T =
     transaction { statement() }
 
-  fun initialize(dbName: String) {
-    val url = "jdbc:h2:mem:$dbName;DB_CLOSE_DELAY=-1"
-
-    Database.connect(url = url, driver = "org.h2.Driver")
+  fun initialize(config: DatabaseConfig) {
+    Database.connect(url = config.url, driver = config.driver, user = config.user, password = config.password)
     Flyway.configure()
-      .dataSource(url, "", "")
+      .dataSource(config.url, config.user, config.password)
       .load()
       .migrate()
   }
