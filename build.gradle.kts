@@ -63,6 +63,7 @@ dependencies {
     implementation("ch.qos.logback:logback-core:1.5.16")
     implementation("org.flywaydb:flyway-core:11.1.1")
     implementation("com.typesafe:config:1.4.2")
+    implementation("org.http4k:http4k-server-jetty")
     testImplementation("org.http4k:http4k-testing-approval")
     testImplementation("org.http4k:http4k-testing-hamkrest")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.4")
