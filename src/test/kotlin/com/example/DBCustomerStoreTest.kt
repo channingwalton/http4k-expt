@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class DBCustomerStoreTest : DatabaseTest {
   @Test
   fun crud() {
-    val customer = Customer(id = null, name = "Bob", email = "bob@example.com")
+    val customer = Customer(id = null, name = Name("Bob"), email = Email("bob@example.com"))
     val id = transaction { DBStore.add(customer) }
     val found = transaction { DBStore.getCustomer(id) }
     assertEquals(customer.copy(id = id), found)

@@ -25,14 +25,14 @@ object DBStore : Store {
   override fun add(c: Customer): Id =
     Id(
       Customers.insert { r ->
-        r[fullName] = c.name
-        r[email] = c.email
+        r[fullName] = c.name.value
+        r[email] = c.email.value
       }[Customers.customerId]
     )
 
   override fun getCustomer(cId: Id): Customer? =
     Customers.selectAll().where(Customers.customerId eq cId.value).map {
-      Customer(id = cId, name = it[Customers.fullName], email = it[Customers.email])
+      Customer(id = cId, name = Name(it[Customers.fullName]), email = Email(it[Customers.email]))
     }.firstOrNull()
 
   override fun <T> transact(statement: () -> T): T =
