@@ -17,10 +17,10 @@ import java.io.ByteArrayInputStream
 
 class CustomerHandlerTests {
 
-  private val customer = Customer(id = 1, name = "Bob", email = "bob@example.com")
+  private val customer = Customer(id = Id(1), name = "Bob", email = "bob@example.com")
   private val mockLogic = object : Logic {
-    override fun add(c: Customer): Long = c.id!!
-    override fun getCustomer(cId: Long): Customer? =
+    override fun add(c: Customer): Id = c.id!!
+    override fun getCustomer(cId: Id): Customer? =
       if (cId == customer.id) customer else null
   }
 

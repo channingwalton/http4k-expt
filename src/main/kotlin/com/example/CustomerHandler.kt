@@ -42,7 +42,7 @@ class CustomerHandler(logic: Logic) {
 
     "/customer/{id}" bind GET to { request ->
       request.path("id")?.toLong()?.let { okId ->
-        logic.getCustomer(okId)?.let { customer ->
+        logic.getCustomer(Id(okId))?.let { customer ->
           Response(OK)
             .with(CONTENT_TYPE of ContentType.APPLICATION_JSON)
             .body(Json.encodeToString(customer))

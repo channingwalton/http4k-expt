@@ -9,8 +9,8 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 interface Store {
-  fun add(c: Customer): Long
-  fun getCustomer(cId: Long): Customer?
+  fun add(c: Customer): Id
+  fun getCustomer(cId: Id): Customer?
   fun <T> transact(statement: () -> T): T
 }
 
@@ -22,14 +22,16 @@ object DBStore : Store {
     val email = varchar("email", 256)
   }
 
-  override fun add(c: Customer): Long =
-    Customers.insert { r ->
-      r[fullName] = c.name
-      r[email] = c.email
-    }[Customers.customerId]
+  override fun add(c: Customer): Id =
+    Id(
+      Customers.insert { r ->
+        r[fullName] = c.name
+        r[email] = c.email
+      }[Customers.customerId]
+    )
 
-  override fun getCustomer(cId: Long): Customer? =
-    Customers.selectAll().where(Customers.customerId eq cId).map {
+  override fun getCustomer(cId: Id): Customer? =
+    Customers.selectAll().where(Customers.customerId eq cId.value).map {
       Customer(id = cId, name = it[Customers.fullName], email = it[Customers.email])
     }.firstOrNull()
 
