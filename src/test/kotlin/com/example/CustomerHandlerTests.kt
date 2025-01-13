@@ -32,7 +32,7 @@ class CustomerHandlerTests {
 
     // The body must be a Stream to match what actually happens in the app,
     // as opposed to just a String
-    val request = Request(POST, "/customer").body(ByteArrayInputStream(json.toByteArray()))
+    val request = Request(POST, "/customer").body(bodyStream(json))
     assertEquals(Response(OK), handler.app(request))
 
     val expected = Response(OK).with(CONTENT_TYPE of ContentType.APPLICATION_JSON).body(json)
@@ -46,7 +46,9 @@ class CustomerHandlerTests {
 
   @Test
   fun `bad json`() {
-    val request = Request(POST, "/customer").body(ByteArrayInputStream("oops".toByteArray()))
+    val request = Request(POST, "/customer").body(bodyStream("oops"))
     assertEquals(Response(BAD_REQUEST), handler.app(request))
   }
+
+  private fun bodyStream(txt: String): ByteArrayInputStream = ByteArrayInputStream(txt.toByteArray())
 }
