@@ -10,6 +10,6 @@ fun main() {
   DBStore.initialize(config.database)
   val handlers = CustomerHandler(TheLogics(DBStore))
   val app = PrintRequest().then(handlers.app)
-  val server = app.asServer(Jetty(9000)).start()
+  val server = app.asServer(Jetty(config.serverPort)).start()
   println("Server started on " + server.port())
 }
