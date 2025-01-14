@@ -6,10 +6,10 @@ import org.http4k.server.Jetty
 import org.http4k.server.asServer
 
 fun main() {
-  val config = AppConfig.load()
-  DBStore.initialize(config.database)
-  val handlers = CustomerHandler(TheLogics(DBStore))
-  val app = PrintRequest().then(handlers.app)
-  val server = app.asServer(Jetty(config.serverPort)).start()
-  println("Server started on " + server.port())
+    val config = AppConfig.load()
+    DBStore.initialize(config.database)
+    val handlers = CustomerHandler(TheLogics(DBStore))
+    val app = PrintRequest().then(handlers.app)
+    val server = app.asServer(Jetty(config.serverPort)).start()
+    println("Server started on " + server.port())
 }
